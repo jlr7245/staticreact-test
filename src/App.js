@@ -1,21 +1,38 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-import logo from './logo.svg';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
+
+import About from './views/About';
+import Home from './views/Home';
+import NoMatch from './views/NotFound';
+
+const routes = [
+  {
+    title: 'Home',
+    path: '/',
+    component: Home,
+    exact: true,
+  },
+  {
+    title: 'About',
+    path: '/about',
+    component: About,
+  },
+];
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Helmet title="You Are Doing Great" />
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Router>
+        <Switch>
+          {routes.map((route, i) => (
+            <Route key={i} {...route} />
+          ))}
+          <Route component={NoMatch} />
+        </Switch>
+      </Router>
     );
   }
 }
